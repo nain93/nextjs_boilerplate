@@ -25,4 +25,14 @@ model User{
   avatar String? 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  AuthToken AuthToken[]
+}
+
+model AuthToken{
+  id Int @id @default(autoincrement())
+  token String @unique
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }

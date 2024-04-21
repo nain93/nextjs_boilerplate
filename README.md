@@ -13,3 +13,7 @@ npx prisma migrate dev // for database migration
 - TypeScript
 - TailwindCSS
 - Prisma
+- NextAuth
+
+## Ui
+- Material-tailwind
