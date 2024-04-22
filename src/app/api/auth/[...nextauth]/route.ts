@@ -1,8 +1,25 @@
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
 import NextAuth from "next-auth";
+import getSession from "@/utils/session";
 
 const handler = NextAuth({
+  events: {
+    signOut: async () => {
+      const cookie = await getSession();
+      cookie.destroy();
+    },
+  },
+  callbacks: {
+    async signIn() {
+      const cookie = await getSession();
+      // TODO db에 token 저장
+      // cookie.token = token;
+      await cookie.save();
+      return true;
+    },
+  },
+
   secret: process.env.NEXT_AUTH_SECRET,
   providers: [
     GoogleProvider({
