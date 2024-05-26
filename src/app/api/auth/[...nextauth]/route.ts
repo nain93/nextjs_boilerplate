@@ -1,6 +1,7 @@
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
 import NextAuth from "next-auth";
+import { createUser } from "@/app/sign-in/actions";
 import getSession from "@/utils/session";
 
 const handler = NextAuth({
@@ -11,11 +12,12 @@ const handler = NextAuth({
     },
   },
   callbacks: {
-    async signIn() {
+    async signIn({ user, account }) {
       const cookie = await getSession();
-      // TODO db에 token 저장
-      // cookie.token = token;
+
+      cookie.id = user.id;
       await cookie.save();
+      await createUser({ provider: account?.provider ?? "" });
       return true;
     },
   },
