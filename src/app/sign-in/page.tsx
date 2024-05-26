@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+"use client";
 
 import { Button } from "@material-tailwind/react";
+import { LoginProvider } from "@/utils/type";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
-  const handleLogin = async (loginProvider: "kakao" | "google") => {
+  const [provider, setProvider] = useState<LoginProvider | null>(null);
+  const handleLogin = async (loginProvider: LoginProvider) => {
+    setProvider(loginProvider);
     try {
       setLoading(true);
       await signIn(loginProvider, {
@@ -25,7 +29,7 @@ export default function SignIn() {
       <div className="flex flex-col">
         <Button
           onClick={() => handleLogin("kakao")}
-          loading={loading}
+          loading={loading && provider === "kakao"}
           size="lg"
           className="w-80 flex justify-center bg-[#FAE54D] text-black hover:opacity-80 transition"
         >
@@ -33,7 +37,7 @@ export default function SignIn() {
         </Button>
         <Button
           onClick={() => handleLogin("google")}
-          loading={loading}
+          loading={loading && provider === "google"}
           size="lg"
           color="white"
           className="w-80 flex justify-center hover:opacity-80 transition mt-4"

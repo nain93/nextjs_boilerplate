@@ -17,7 +17,7 @@ datasource db {
 
 model User{
   id Int @id @default(autoincrement())
-  username String @unique
+  username String? @unique
   email String? @unique
   password String? 
   phone String? @unique
@@ -32,6 +32,7 @@ model AuthToken{
   token String @unique
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id Int
+  provider String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
