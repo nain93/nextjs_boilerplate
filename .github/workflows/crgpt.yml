@@ -12,6 +12,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Debug GitHub context
+        run: |
+          echo "apiKey=${{ secrets.OPENAI_API_KEY }}"
+          echo "apiKey=${{ secrets.GITHUB_TOKEN }}"
+
       - name: Code Review GPT
         uses: mattzcarey/code-review-gpt@v0.1.8
         with:
